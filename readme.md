@@ -1,5 +1,7 @@
-Conways "game of life" heatmap
+Conways "game of life"
  
+SOLUTION IN main[exercise]
+
 The Goal:
  
 given an input of 3x3, print out a heatmap showing the adjacent neighbors for each cell
