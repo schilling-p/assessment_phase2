@@ -1,4 +1,4 @@
-input = {
+game_input = {
     1 : 0, 2 : 1, 3 : 0, 4 : 0,
     5 : 0, 6 : 1, 7 : 0, 8 : 0, 
     9 : 0, 10: 1, 11: 0, 12: 0,
@@ -12,39 +12,58 @@ lookup = {
     13: [9,10,14], 14: [9,10,11,13,15], 15: [10,11,12,14,16], 16: [11,12,15]
    }
 
-heatmap = {
+def build_heatmap(input_dict, lookup_dict):
+    """return a heatmap describing the number of neighbors"""
+    heatmap = {
     1 : [], 2 : [], 3 : [], 4 : [],
     5 : [], 6 : [], 7 : [], 8 : [],
     9 : [], 10: [], 11: [], 12: [],
     13: [], 14: [], 15: [], 16: []
     }
- 
-for key in input:
-   for i in lookup[key]:
-       heatmap[key].append(input[i])
- 
-output = {}
-for cell, value in heatmap.items():
-    output[cell] = sum(value)
+    for key in input_dict:
+        for i in lookup_dict[key]:
+            heatmap[key].append(input_dict[i])
+    return heatmap
 
-# Exercise 3:
-# if number of neighbors (heat) = 3 -> 1
-# if number of neighbors (heat) = 2 -> check input for inhabitants
-# else -> inhabitant dies
-for cell, number_of_neighbors in output.items():
-    if number_of_neighbors == 3 and input[cell] == 0:
-        output[cell] = 1
-    elif number_of_neighbors == 2 or number_of_neighbors == 3:
-        output[cell] = input[cell]
-    else:
-        output[cell] = 0
 
- 
-output_string = """
+def iteration(input_dict, heatmap_dict):
+    """iterate once through the game of life"""
+    output_dict = {}
+    for cell, value in heatmap_dict.items():
+        output_dict[cell] = sum(value)
+    for cell, number_of_neighbors in output_dict.items():
+        if number_of_neighbors == 3 and input_dict[cell] == 0:
+            output_dict[cell] = 1
+        elif number_of_neighbors == 2 or number_of_neighbors == 3:
+            output_dict[cell] = input_dict[cell]
+        else:
+            output_dict[cell] = 0
+    return output_dict
+
+def print_next_iteration():
+    """combines a dictionary and a string to print out the next iteration"""
+    output = iteration(game_input, build_heatmap(game_input, lookup))
+    output_string = """
+    {} {} {} {}
+    {} {} {} {}
+    {} {} {} {}
+    {} {} {} {}
+    """.format(*output.values())
+    print(output_string)
+
+# the game of life:
+input_string = """
 {} {} {} {}
 {} {} {} {}
 {} {} {} {}
 {} {} {} {}
-""".format(*output.values())
-print(output_string)
- 
+""".format(*game_input.values())
+
+print(input_string)
+
+answer = int(input("How many times do you want to play?: "))
+
+for i in range(0, answer):
+    print_next_iteration()
+
+
