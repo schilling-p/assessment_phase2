@@ -1,7 +1,7 @@
 input = {
-    1 : 0, 2 : 0, 3 : 0, 4 : 0,
+    1 : 0, 2 : 1, 3 : 0, 4 : 0,
     5 : 0, 6 : 1, 7 : 0, 8 : 0, 
-    9 : 0, 10: 1, 11: 1, 12: 1,
+    9 : 0, 10: 1, 11: 0, 12: 0,
     13: 0, 14: 0, 15: 0, 16: 0
     }
  
@@ -25,7 +25,20 @@ for key in input:
  
 output = {}
 for cell, value in heatmap.items():
-   output[cell] = sum(value)
+    output[cell] = sum(value)
+
+# Exercise 3:
+# if number of neighbors (heat) = 3 -> 1
+# if number of neighbors (heat) = 2 -> check input for inhabitants
+# else -> inhabitant dies
+for cell, number_of_neighbors in output.items():
+    if number_of_neighbors == 3:
+        output[cell] = 1
+    elif number_of_neighbors == 2 or number_of_neighbors == 3:
+        output[cell] = input[cell]
+    else:
+        output[cell] = 0
+
  
 output_string = """
 {} {} {} {}
