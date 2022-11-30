@@ -32,7 +32,7 @@ for cell, value in heatmap.items():
 # if number of neighbors (heat) = 2 -> check input for inhabitants
 # else -> inhabitant dies
 for cell, number_of_neighbors in output.items():
-    if number_of_neighbors == 3:
+    if number_of_neighbors == 3 and input[cell] == 0:
         output[cell] = 1
     elif number_of_neighbors == 2 or number_of_neighbors == 3:
         output[cell] = input[cell]
